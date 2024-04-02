@@ -1,3 +1,14 @@
+// Your name: Ashur Nanno
+
+ // Date Revised: 04/02/2024
+
+ // Exercise or Lab name: Tip Calculator
+
+ // Brief Description of what you did: This application allows users to input a bill amount, select a tip percentage or enter a custom tip, specify the number of people sharing the bill, and then calculate and display the tip amount per person and the total amount per person
+
+
+// Person who Peer Reviewed your assignment
+
 # Front-end Style Guide
 
 ## Layout
