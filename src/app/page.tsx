@@ -210,7 +210,11 @@ export default function Home() {
             <div className="flex justify-center ">
               <button
                 onClick={resetForm}
-                className={`w-full h-11 space-mono-bold text-xl rounded-md ${isActive ? 'hover:bg-S2cyan hover:text-VDcyan  bg-Scyan text-VLGcyan' : 'bg-D2Gcyan text-VDcyan'}`}
+                className={`
+              w-full h-11 space-mono-bold text-xl rounded-md
+              ${bill > 0 ? 'hover:bg-S2cyan hover:text-VDcyan bg-Scyan text-VLGcyan' : 'bg-D2Gcyan text-VDcyan cursor-not-allowed'}
+            `}
+                disabled={bill <= 0}
               >
                 Reset
               </button>
