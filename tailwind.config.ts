@@ -17,10 +17,12 @@ const config: Config = {
       colors:{
         //Strong Cyan
         Scyan: 'hsl(172, 67%, 45%)',
+        S2cyan: 'hsl(171, 99%, 82%)',
         //Very Dark Cyan
         VDcyan: 'hsl(183, 100%, 15%)',
         //Dark Gray Cyan
         DGcyan: 'hsl(186, 14%, 43%)',
+        D2Gcyan: 'hsl(186, 28%, 43%)',
         //Grayish Cyan
         Gcyan: 'hsl(184, 14%, 56%)',
         //Light Grayish Cyan
