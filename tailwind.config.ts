@@ -22,7 +22,7 @@ const config: Config = {
         VDcyan: 'hsl(183, 100%, 15%)',
         //Dark Gray Cyan
         DGcyan: 'hsl(186, 14%, 43%)',
-        D2Gcyan: 'hsl(186, 28%, 43%)',
+        D2Gcyan: 'hsl(186, 55%, 28%)',
         //Grayish Cyan
         Gcyan: 'hsl(184, 14%, 56%)',
         //Light Grayish Cyan

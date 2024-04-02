@@ -3,10 +3,70 @@
 // import { button } from "flowbite-react";
 import { Container } from "postcss";
 import { Card } from "flowbite-react";
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export default function Home() {
-const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+  const [bill, setBill] = useState<number>(0);
+  const [tipPercentage, setTipPercentage] = useState<number>(0);
+  const [customTip, setCustomTip] = useState<number>(0);
+  const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
+  const [tipAmountPerPerson, setTipAmountPerPerson] = useState<number>(0);
+  const [totalPerPerson, setTotalPerPerson] = useState<number>(0);
+
+  const [selectedTip, setSelectedTip] = useState<number>(0);
+
+  // Tip percentages to choose from
+  const tipPercentages = [5, 10, 15, 25, 50];
+
+  // Function to handle tip selection
+  const handleTipSelection = (percentage: number) => {
+    setSelectedTip(percentage);
+    setCustomTip(0); // Reset custom tip if a predefined tip is selected
+  };
+
+
+  const handleBillInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Parse float to convert input value to number
+    const inputVal = parseFloat(e.target.value) || 0;
+    setBill(inputVal)
+
+  };
+
+  // const handleTipSelection = (percentage: number) => {
+  //   setTipPercentage(percentage);
+  //   // Reset customTip if one of the preset buttons is used
+  //   setCustomTip(0);
+  // };
+
+   // Handle input for custom tip amount
+   const handleCustomTipInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCustomTip(parseFloat(e.target.value));
+    setSelectedTip(0); // Reset selected tip percentage if custom tip is used
+  };
+
+   // Function to handle input for the number of people
+   const handleNumberOfPeopleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Convert input value to number and prevent it from being less than 1
+    const numPeople = Math.max(1, parseInt(e.target.value, 10) || 1);
+    setNumberOfPeople(numPeople);
+  };
+  
+
+  const calculateTipAndTotal = () => {
+    const tipValue = tipPercentage > 0 ? (bill * tipPercentage) / 100 : customTip;
+    const totalTipAmountPerPerson = tipValue / numberOfPeople;
+    const totalAmountPerPerson = (bill + tipValue) / numberOfPeople;
+
+    setTipAmountPerPerson(totalTipAmountPerPerson);
+    setTotalPerPerson(totalAmountPerPerson);
+  };
+
+  // This could be triggered by an effect or a "Calculate" button
+  React.useEffect(() => {
+    calculateTipAndTotal();
+  }, [bill, tipPercentage, customTip, numberOfPeople]);
+
 
 
   return (<>
@@ -20,111 +80,120 @@ const [isActive, setIsActive] = useState(false);
       <Card className="w-900px h-600px rounded-3xl overflow-hidden bg-VLGcyan">
         <div className="grid grid-cols-2 h-full ">
           <div className="flex flex-col justify-between p-8">
-           
-              <div className="mb-5 grid">
-                <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Bill</label>
-                <div className="relative flex items-center bg-slate-100 rounded-md hover:border-2 hover:border-Scyan">
-                  <span className="absolute left-0 pl-3 text-gray-500"></span>
-                  <input
-                    type="text"
-                    className="w-full text-2xl text-VDcyan space-mono-bold  rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-right hover:border-2  hover:border-Scyan"
-                    style={{
-                      backgroundImage: `url('/assets/icon-dollar.svg')`, // Using the public folder path
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'left 10px center', // Adjust as needed
-                      backgroundSize: '11px 17px', // Adjust based on the size of your icon
-                    }}
-                    placeholder="0"
-                    step="0.01"
-                    min="0"
-                    onInput={(e) => {
-                      e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.]/g, '').replace(/(\..*)\..*/g, '$1')
-                    }}
-                  />
-                </div>
-              </div>
-            
 
-            <div className="">
-              <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Select Tip %</label>
-              <div className="flex justify-between mb-4">
-                <button className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl  bg-VDcyan text-VLGcyan rounded-md">5%</button>
-                <button className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl  bg-VDcyan text-VLGcyan rounded-md">10%</button>
-                <button className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl  bg-VDcyan text-VLGcyan rounded-md">15%</button>
-              </div>
-
-              <div>
-                <div className="flex justify-between">
-                  <button className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl  bg-VDcyan text-VLGcyan rounded-md">25%</button>
-                  <button className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl  bg-VDcyan text-VLGcyan rounded-md">50%</button>
-                  <input className="w-28 text-xl text-VDcyan space-mono-bold  rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-center hover:border-2  hover:border-Scyan" type="text" placeholder="Custom"
-                    step="1"
-                    min="0"
-                    onInput={(e) => {
-                      // Only allow numbers (and optionally a single decimal point)
-                      e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.]/g, '').replace(/(\..*)\..*/g, '$1');
-                    }}
-                  />
-                </div>
-              </div>
-
-            </div>
-
-            <div>
-              <div className="mb-5 grid">
-                <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Number of People</label>
+            <div className="mb-5 grid">
+              <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Bill</label>
+              <div className="relative flex items-center bg-slate-100 rounded-md hover:border-2 hover:border-Scyan">
+                <span className="absolute left-0 pl-3 text-gray-500"></span>
                 <input
-                  type="text"
-                  className="w-full text-2xl text-VDcyan space-mono-bold  rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-right hover:border-2  hover:border-Scyan"
+                  value={bill.toString()} // Convert bill state to string for input value
+                  type="text" // Keeping as text to match your use of onInput for custom handling
+                  className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-right hover:border-2 hover:border-Scyan"
                   style={{
-                    backgroundImage: `url('/assets/icon-person.svg')`, // Using the public folder path
+                    backgroundImage: `url('/assets/icon-dollar.svg')`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'left 10px center', // Adjust as needed
-                    backgroundSize: '15px 17px', // Adjust based on the size of your icon
-                  }}
-                  onInput={(e) => {
-                    // Ensure only whole numbers greater than 0 are allowed
-                    e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').replace(/^0+/g, '');
+                    backgroundPosition: 'left 10px center',
+                    backgroundSize: '11px 17px',
                   }}
                   placeholder="0"
+                  onChange={handleBillInput} // Use onChange for React convention
                 />
               </div>
             </div>
+
+
+            <div className="">
+          <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Select Tip %</label>
+          <div className="flex justify-between mb-4">
+            {tipPercentages.map((percentage, index) => (
+              index < 3 ? (
+                <button 
+                  key={percentage} 
+                  className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
+                  onClick={() => handleTipSelection(percentage)}>
+                  {percentage}%
+                </button>
+              ) : null
+            ))}
+          </div>
+
+          <div className="flex justify-between">
+            {tipPercentages.map((percentage, index) => (
+              index >= 3 ? (
+                <button 
+                  key={percentage} 
+                  className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
+                  onClick={() => handleTipSelection(percentage)}>
+                  {percentage}%
+                </button>
+              ) : null
+            ))}
+            {/* Custom Tip Input */}
+            <input 
+              type="number"
+              value={customTip > 0 ? customTip.toString() : ''}
+              onChange={handleCustomTipInput}
+              className="w-28 text-xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-center hover:border-2 hover:border-Scyan" 
+              placeholder="Custom Tip"
+            />
+          </div>
+        </div>
+
+
+
+        <div className="mb-5 grid">
+          <label className="space-mono-bold text-xl text-VDcyan" htmlFor="numberOfPeople">Number of People</label>
+          <div className="relative flex items-center bg-slate-100 rounded-md hover:border-2 hover:border-Scyan">
+            <span className="absolute left-0 pl-3 text-gray-500">
+              <img src="/assets/icon-person.svg" alt="People Icon" style={{width: '15px', height: '17px'}} />
+            </span>
+            <input
+              id="numberOfPeople"
+              type="number"
+              value={numberOfPeople.toString()}
+              onChange={handleNumberOfPeopleInput}
+              className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-10 pr-3 py-2 text-right hover:border-2 hover:border-Scyan"
+              placeholder="0"
+              min="1" // Ensure you can't go below 1 person
+            />
+          </div>
+        </div>
+
           </div>
 
 
           <div className="bg-VDcyan flex flex-col justify-between   rounded-2xl m-4  p-8">
 
-                <div className="">
-                  <div className="flex justify-between w-full mb-4 ">
-                    <div>
-                      <div>
-                        <p className="text-xl text-LGcyan">Tip Amount</p>
-                      </div>
-                      <div><p className="text-md text-Gcyan">/ person</p></div>
-                    </div>
-                    <div><p className="text-md text-Scyan text-5xl space-mono-bold ">$0.00</p></div>
+            <div className="">
+              <div className="flex justify-between w-full mb-4 ">
+                <div>
+                  <div>
+                    <p className="text-xl text-LGcyan">Tip Amount</p>
                   </div>
+                  <div><p className="text-md text-Gcyan">/ person</p></div>
+                </div>
+                <div><p className="text-md text-Scyan text-5xl space-mono-bold ">$0.00</p></div>
+              </div>
 
-                  <div className="flex justify-between w-full mb-4">
-                    <div>
-                      <div>
-                        <p className="text-xl text-LGcyan">Tip Amount</p>
-                      </div>
-                      <div><p className="text-md text-Gcyan">/ person</p></div>
-                    </div>
-                    <div><p className="text-md text-Scyan text-5xl space-mono-bold ">$0.00</p></div>
+              <div className="flex justify-between w-full mb-4">
+                <div>
+                  <div>
+                    <p className="text-xl text-LGcyan">Total</p>
                   </div>
+                  <div><p className="text-md text-Gcyan">/ person</p></div>
                 </div>
+                <div><p className="text-md text-Scyan text-5xl space-mono-bold ">$0.00</p></div>
+              </div>
+            </div>
 
-                <div className="flex justify-center ">
-                <button className={`w-full h-11 space-mono-bold text-xl rounded-md
-                ${ isActive ? 'hover:bg-S2cyan hover:text-VDcyan  bg-Scyan text-VLGcyan' : 'bg-DGcyan text-VDcyan'}`}
-                >
-                  
-                  Reset</button>
-                </div>
-              {/* </div> */}
+            <div className="flex justify-center ">
+              <button className={`w-full h-11 space-mono-bold text-xl rounded-md
+                ${isActive ? 'hover:bg-S2cyan hover:text-VDcyan  bg-Scyan text-VLGcyan' : 'bg-D2Gcyan text-VDcyan'}`}
+              >
+
+                Reset</button>
+            </div>
+            {/* </div> */}
 
             {/* </div> */}
           </div>
