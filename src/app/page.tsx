@@ -39,22 +39,22 @@ export default function Home() {
   //   setCustomTip(0);
   // };
 
-   // Handle input for custom tip amount
-   const handleCustomTipInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle input for custom tip amount
+  const handleCustomTipInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomTip(parseFloat(e.target.value));
     setSelectedTip(0); // Reset selected tip percentage if custom tip is used
   };
 
-   // Function to handle input for the number of people
-   const handleNumberOfPeopleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Function to handle input for the number of people
+  const handleNumberOfPeopleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Convert input value to number and prevent it from being less than 1
     const numPeople = Math.max(1, parseInt(e.target.value, 10) || 1);
     setNumberOfPeople(numPeople);
   };
-  
+
 
   const calculateTipAndTotal = () => {
-    const tipValue = tipPercentage > 0 ? (bill * tipPercentage) / 100 : customTip;
+    const tipValue = selectedTip > 0 ? (bill * selectedTip) / 100 : customTip;
     const totalTipAmountPerPerson = tipValue / numberOfPeople;
     const totalAmountPerPerson = (bill + tipValue) / numberOfPeople;
 
@@ -65,8 +65,18 @@ export default function Home() {
   // This could be triggered by an effect or a "Calculate" button
   React.useEffect(() => {
     calculateTipAndTotal();
-  }, [bill, tipPercentage, customTip, numberOfPeople]);
+  }, [bill, selectedTip, customTip, numberOfPeople]);
 
+
+  const resetForm = () => {
+    setBill(0);
+    setSelectedTip(0);
+    setCustomTip(0);
+    setNumberOfPeople(1);
+    // Optionally reset tipAmountPerPerson and totalPerPerson if you want to clear those fields as well
+    setTipAmountPerPerson(0);
+    setTotalPerPerson(0);
+  };
 
 
   return (<>
@@ -103,61 +113,61 @@ export default function Home() {
 
 
             <div className="">
-          <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Select Tip %</label>
-          <div className="flex justify-between mb-4">
-            {tipPercentages.map((percentage, index) => (
-              index < 3 ? (
-                <button 
-                  key={percentage} 
-                  className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
-                  onClick={() => handleTipSelection(percentage)}>
-                  {percentage}%
-                </button>
-              ) : null
-            ))}
-          </div>
+              <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Select Tip %</label>
+              <div className="flex justify-between mb-4">
+                {tipPercentages.map((percentage, index) => (
+                  index < 3 ? (
+                    <button
+                      key={percentage}
+                      className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
+                      onClick={() => handleTipSelection(percentage)}>
+                      {percentage}%
+                    </button>
+                  ) : null
+                ))}
+              </div>
 
-          <div className="flex justify-between">
-            {tipPercentages.map((percentage, index) => (
-              index >= 3 ? (
-                <button 
-                  key={percentage} 
-                  className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
-                  onClick={() => handleTipSelection(percentage)}>
-                  {percentage}%
-                </button>
-              ) : null
-            ))}
-            {/* Custom Tip Input */}
-            <input 
-              type="number"
-              value={customTip > 0 ? customTip.toString() : ''}
-              onChange={handleCustomTipInput}
-              className="w-28 text-xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-center hover:border-2 hover:border-Scyan" 
-              placeholder="Custom Tip"
-            />
-          </div>
-        </div>
+              <div className="flex justify-between">
+                {tipPercentages.map((percentage, index) => (
+                  index >= 3 ? (
+                    <button
+                      key={percentage}
+                      className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
+                      onClick={() => handleTipSelection(percentage)}>
+                      {percentage}%
+                    </button>
+                  ) : null
+                ))}
+                {/* Custom Tip Input */}
+                <input
+                  type="number"
+                  value={customTip > 0 ? customTip.toString() : ''}
+                  onChange={handleCustomTipInput}
+                  className="w-28 text-xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-center hover:border-2 hover:border-Scyan"
+                  placeholder="Custom Tip"
+                />
+              </div>
+            </div>
 
 
 
-        <div className="mb-5 grid">
-          <label className="space-mono-bold text-xl text-VDcyan" htmlFor="numberOfPeople">Number of People</label>
-          <div className="relative flex items-center bg-slate-100 rounded-md hover:border-2 hover:border-Scyan">
-            <span className="absolute left-0 pl-3 text-gray-500">
-              <img src="/assets/icon-person.svg" alt="People Icon" style={{width: '15px', height: '17px'}} />
-            </span>
-            <input
-              id="numberOfPeople"
-              type="number"
-              value={numberOfPeople.toString()}
-              onChange={handleNumberOfPeopleInput}
-              className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-10 pr-3 py-2 text-right hover:border-2 hover:border-Scyan"
-              placeholder="0"
-              min="1" // Ensure you can't go below 1 person
-            />
-          </div>
-        </div>
+            <div className="mb-5 grid">
+              <label className="space-mono-bold text-xl text-VDcyan" htmlFor="numberOfPeople">Number of People</label>
+              <div className="relative flex items-center bg-slate-100 rounded-md hover:border-2 hover:border-Scyan">
+                <span className="absolute left-0 pl-3 text-gray-500">
+                  <img src="/assets/icon-person.svg" alt="People Icon" style={{ width: '15px', height: '17px' }} />
+                </span>
+                <input
+                  id="numberOfPeople"
+                  type="number"
+                  value={numberOfPeople.toString()}
+                  onChange={handleNumberOfPeopleInput}
+                  className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-10 pr-3 py-2 text-right hover:border-2 hover:border-Scyan"
+                  placeholder="0"
+                  min="1" // Ensure you can't go below 1 person
+                />
+              </div>
+            </div>
 
           </div>
 
@@ -172,7 +182,12 @@ export default function Home() {
                   </div>
                   <div><p className="text-md text-Gcyan">/ person</p></div>
                 </div>
-                <div><p className="text-md text-Scyan text-5xl space-mono-bold ">$0.00</p></div>
+                {/* Display Tip Amount Per Person */}
+                <div>
+                  <p className="text-md text-Scyan text-5xl space-mono-bold ">
+                    ${tipAmountPerPerson.toFixed(2)}
+                  </p>
+                </div>
               </div>
 
               <div className="flex justify-between w-full mb-4">
@@ -182,16 +197,23 @@ export default function Home() {
                   </div>
                   <div><p className="text-md text-Gcyan">/ person</p></div>
                 </div>
-                <div><p className="text-md text-Scyan text-5xl space-mono-bold ">$0.00</p></div>
+                {/* Display Total Per Person */}
+                <div>
+                  <p className="text-md text-Scyan text-5xl space-mono-bold ">
+                    ${totalPerPerson.toFixed(2)}
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="flex justify-center ">
-              <button className={`w-full h-11 space-mono-bold text-xl rounded-md
-                ${isActive ? 'hover:bg-S2cyan hover:text-VDcyan  bg-Scyan text-VLGcyan' : 'bg-D2Gcyan text-VDcyan'}`}
-              >
 
-                Reset</button>
+            <div className="flex justify-center ">
+              <button
+                onClick={resetForm}
+                className={`w-full h-11 space-mono-bold text-xl rounded-md ${isActive ? 'hover:bg-S2cyan hover:text-VDcyan  bg-Scyan text-VLGcyan' : 'bg-D2Gcyan text-VDcyan'}`}
+              >
+                Reset
+              </button>
             </div>
             {/* </div> */}
 
