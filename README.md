@@ -1,3 +1,20 @@
+// Your name: Ashur Nanno
+
+ // Date Revised: 04/02/2024
+
+ // Exercise or Lab name: Tip Calculator
+
+ // Brief Description of what you did: This application allows users to input a bill amount, select a tip percentage or enter a custom tip, specify the number of people sharing the bill, and then calculate and display the tip amount per person and the total amount per person
+
+
+// Person who Peer Reviewed your assignment
+#### Leo Garcia
+
+### Review Notes
+#### The site replicates the given design very well with some minor inconsistencies to point out. When active, tip does not change to cyan like in design, input field borders shift size when hovering, Number of People input field cannot go below 1 for better or for worse, and second column does not use Space Mono. I was also told that the site isn't quite responsive yet. With all that being said, the general color format was followed very well, the layout with no inputs match the example very closely, the calculation is instant, and the reset button clears all the user inputs and variables. Overall the calculator functons as intended and follows the layout fairly nice.
+
+#
+
 # Front-end Style Guide
 
 ## Layout
