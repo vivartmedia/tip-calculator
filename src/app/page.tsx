@@ -152,7 +152,7 @@ export default function Home() {
                   type="number"
                   value={numberOfPeople.toString()}
                   onChange={handleNumberOfPeopleInput}
-                  className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-10 pr-3 py-2 text-right hover:border-2 hover:border-Scyan"
+                  className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-10 pr-3 py-2 text-right "
                   placeholder="0"
                   min="1" // Ensure you can't go below 1 person
                 />
