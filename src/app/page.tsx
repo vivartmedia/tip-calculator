@@ -80,25 +80,25 @@ export default function Home() {
 
 
   return (<>
-    <main className="flex min-h-screen flex-col items-center p-20 bg-LGcyan">
+    <main className="flex min-h-screen flex-col items-center p-5 md:p-20 bg-LGcyan">
 
       <header className="my-14">
         <h1 className="space-mono-bold text-3xl text-VDcyan">S P L I</h1>
         <h1 className="space-mono-bold text-3xl text-VDcyan">T T E R</h1>
       </header>
 
-      <Card className="w-900px h-600px rounded-3xl overflow-hidden bg-VLGcyan">
-        <div className="grid grid-cols-2 h-full ">
+      <Card className="xl:w-900px xl:h-600px rounded-3xl overflow-hidden bg-VLGcyan">
+        <div className="grid xl:grid-cols-2 h-full ">
           <div className="flex flex-col justify-between p-8">
 
             <div className="mb-5 grid">
               <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Bill</label>
-              <div className="relative flex items-center bg-slate-100 rounded-md hover:border-2 hover:border-Scyan">
+              <div className="relative flex items-center bg-slate-100 rounded-md">
                 <span className="absolute left-0 pl-3 text-gray-500"></span>
                 <input
                   value={bill.toString()} // Convert bill state to string for input value
                   type="text" // Keeping as text to match your use of onInput for custom handling
-                  className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-right hover:border-2 hover:border-Scyan"
+                  className="w-full text-2xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-right hover:border-1 hover:border-Scyan outlin"
                   style={{
                     backgroundImage: `url('/assets/icon-dollar.svg')`,
                     backgroundRepeat: 'no-repeat',
@@ -113,37 +113,26 @@ export default function Home() {
 
 
             <div className="">
-              <label className="space-mono-bold text-xl text-VDcyan" htmlFor="">Select Tip %</label>
-              <div className="flex justify-between mb-4">
-                {tipPercentages.map((percentage, index) => (
-                  index < 3 ? (
-                    <button
-                      key={percentage}
-                      className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
-                      onClick={() => handleTipSelection(percentage)}>
-                      {percentage}%
-                    </button>
-                  ) : null
-                ))}
-              </div>
+              <label className="space-mono-bold text-xl text-VDcyan mb-4 block">Select Tip %</label>
 
-              <div className="flex justify-between">
+              <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
+                {/* Map over your percentages to create buttons */}
                 {tipPercentages.map((percentage, index) => (
-                  index >= 3 ? (
-                    <button
-                      key={percentage}
-                      className="w-28 h-11 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
-                      onClick={() => handleTipSelection(percentage)}>
-                      {percentage}%
-                    </button>
-                  ) : null
+                  <button
+                    key={index}
+                    className="w-28 h-12 hover:bg-S2cyan hover:text-VDcyan space-mono-bold text-xl bg-VDcyan text-VLGcyan rounded-md"
+                    onClick={() => handleTipSelection(percentage)}>
+                    {percentage}%
+                  </button>
                 ))}
+
                 {/* Custom Tip Input */}
+                {/* Ensuring it takes up a full column; it will automatically wrap to the next line on smaller screens */}
                 <input
                   type="number"
                   value={customTip > 0 ? customTip.toString() : ''}
                   onChange={handleCustomTipInput}
-                  className="w-28 text-xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-center hover:border-2 hover:border-Scyan"
+                  className="xl:col-span-1 w-28 h-12 text-xl text-VDcyan space-mono-bold rounded-md border-0 bg-slate-100 pl-5 pr-3 py-2 text-center hover:border-2 hover:border-Scyan"
                   placeholder="Custom Tip"
                 />
               </div>
@@ -151,9 +140,10 @@ export default function Home() {
 
 
 
-            <div className="mb-5 grid">
+
+            <div className="mb-1 mt-5 grid">
               <label className="space-mono-bold text-xl text-VDcyan" htmlFor="numberOfPeople">Number of People</label>
-              <div className="relative flex items-center bg-slate-100 rounded-md hover:border-2 hover:border-Scyan">
+              <div className="relative flex items-center">
                 <span className="absolute left-0 pl-3 text-gray-500">
                   <img src="/assets/icon-person.svg" alt="People Icon" style={{ width: '15px', height: '17px' }} />
                 </span>
@@ -178,9 +168,9 @@ export default function Home() {
               <div className="flex justify-between w-full mb-4 ">
                 <div>
                   <div>
-                    <p className="text-xl text-LGcyan">Tip Amount</p>
+                    <p className="text-xl space-mono-bold text-LGcyan">Tip Amount</p>
                   </div>
-                  <div><p className="text-md text-Gcyan">/ person</p></div>
+                  <div><p className="text-md space-mono-bold text-Gcyan">/ person</p></div>
                 </div>
                 {/* Display Tip Amount Per Person */}
                 <div>
@@ -193,9 +183,9 @@ export default function Home() {
               <div className="flex justify-between w-full mb-4">
                 <div>
                   <div>
-                    <p className="text-xl text-LGcyan">Total</p>
+                    <p className="text-xl space-mono-bold text-LGcyan">Total</p>
                   </div>
-                  <div><p className="text-md text-Gcyan">/ person</p></div>
+                  <div><p className="text-md space-mono-bold text-Gcyan">/ person</p></div>
                 </div>
                 {/* Display Total Per Person */}
                 <div>
